@@ -8,6 +8,7 @@ modules:
   path: gen/srv
   requires:
   - name: hc_office_supplies-db
+  - name: HC_OFF_SUPPLIES-xsuaa
   provides:
   - name: srv-api
     properties:
@@ -47,6 +48,29 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
+- name: HC_OFF_SUPPLIES-approuter
+  type: nodejs
+  path: approuter
+  requires:
+    - name: HC_OFF_SUPPLIES-xsuaa
+    - name: srv-api
+      group: destinations
+      properties:
+        forwardAuthToken: true
+        strictSSL: true
+        name: srv-binding
+        url: '~{srv-url}'
+  build-parameters:
+    requires:
+      - name: HC_OFF_SUPPLIES-app
+        artifacts:
+          - ./*
+        target-path: resources
+- name: HC_OFF_SUPPLIES-app
+  type: html5,
+  path: app
+  build-parameters:
+    supported-platforms: []
 resources:
 - name: hc_office_supplies-db
   type: com.sap.xs.hdi-container
@@ -77,6 +101,23 @@ resources:
     service: destination
     service-name: hc_office_supplies-destination-service
     service-plan: lite
+- name: HC_OFF_SUPPLIES-xsuaa
+  type: com.sap.xs.uaa
+  parameters:
+    service-plan: application
+    service: xsuaa
+    path: ./xs-security.json
+    config:
+      xsappname: 'HC_OFF_SUPPLIES-${space}'
+      role-collections:
+      - name: Vendor-${space}
+        description: Read Access
+        role-template-references:
+        - $XSAPPNAME.Vendor
+      - name: ProcurementManager-${space}
+        description: All Access
+        role-template-references:
+        - $XSAPPNAME.ProcurementManager
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
@@ -85,3 +126,4 @@ build-parameters:
   - builder: custom
     commands:
     - npx cds build --production
+

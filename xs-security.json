@@ -1,0 +1,38 @@
+{
+  "xsappname": "HC_OFF_SUPPLIES",
+  "tenant-mode": "dedicated",
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.us10-001.hana.ondemand.com/**"
+    ]
+  },
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Vendor",
+      "description": "Vendor"
+    },
+    {
+      "name": "$XSAPPNAME.ProcurementManager",
+      "description": "ProcurementManager"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Vendor",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.Vendor"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "ProcurementManager",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.ProcurementManager"
+      ],
+      "attribute-references": []
+    }
+  ]
+}

@@ -1,41 +1,44 @@
 {
-    "name": "hc_office_supplies",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@sap/cds": "^7",
-        "@sap/cds-hana": "^2",
-        "@sap/hana-client": "^2.19.18",
-        "@sap/hdbext": "^7.3.1",
-        "express": "^4",
-        "sap-hdbext-promisfied": "2.202108.1"
+  "name": "hc_office_supplies",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/hana-client": "^2.19.18",
+    "@sap/hdbext": "^8.0.2",
+    "@sap/xsenv": "^4.2.0",
+    "@sap/xssec": "^3.6.0",
+    "express": "^4",
+    "passport": "^0.7.0",
+    "sap-hdbext-promisfied": "2.202311.1"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/hdi-deploy": "4.8.2",
+    "@sap/ux-specification": "^1.120.0",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy hc_office_supplies --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "cds": {
+    "hana": {
+      "deploy-format": "hdbtable"
     },
-    "devDependencies": {
-        "@cap-js/sqlite": "^1",
-        "@sap/cds-dk": "^7",
-        "@sap/hdi-deploy": "4.8.2",
-        "@sap/ux-specification": "^1.120.0",
-        "rimraf": "^3.0.2"
-    },
-    "scripts": {
-        "start": "cds-serve",
-        "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
-        "undeploy": "cf undeploy hc_office_supplies --delete-services --delete-service-keys --delete-service-brokers",
-        "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
-    },
-    "cds": {
-        "hana": {
-            "deploy-format": "hdbtable"
-        },
-        "requires": {
-            "db": "hana"
-        }
-    },
-    "sapux": [
-        "app/project1"
-    ]
+    "requires": {
+      "db": "hana"
+    }
+  },
+  "sapux": [
+    "app/project1"
+  ]
 }
